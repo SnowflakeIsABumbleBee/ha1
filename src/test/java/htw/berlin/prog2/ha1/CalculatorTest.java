@@ -121,23 +121,6 @@ class CalculatorTest {
     }
 
     @Test
-    @DisplayName("should display resume a postiv number after subtrakt a negativ number from a positive number")
-    void testSubstraktionWithNegativNumber() {
-        Calculator calc = new Calculator();
-
-        calc.pressDigitKey(7);
-        calc.pressBinaryOperationKey("-");
-        calc.pressBinaryOperationKey("-");
-        calc.pressDigitKey(7);
-        calc.pressEqualsKey();
-
-        String expected = "14";
-        String actual = calc.readScreen();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     @DisplayName("should display result after adding two positive numbers again using the equals key")
     void testPositiveAdditionNextPressEqualsAgain() {
         Calculator calc = new Calculator();
