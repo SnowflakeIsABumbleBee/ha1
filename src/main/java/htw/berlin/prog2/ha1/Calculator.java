@@ -13,6 +13,12 @@ public class Calculator {
 
     private double latestValue;
 
+    private String lastValue = "";
+
+    private int operationCount = 0;
+
+    private int equalsCount = 0;
+
     private String latestOperation = "";
 
     /**
@@ -39,7 +45,7 @@ public class Calculator {
         if (screen.equals("0") || latestValue == Double.parseDouble(screen)) {
             screen = "";
         }
-
+        lastValue = screen + digit;
         screen = screen + digit;
     }
 
@@ -72,8 +78,13 @@ public class Calculator {
      * Multiplikation, "/" für Division
      */
     public void pressBinaryOperationKey(String operation) {
+        operationCount++;
+        if (!latestOperation.isEmpty()) {
+            pressEqualsKey();
+        }
         latestValue = Double.parseDouble(screen);
         latestOperation = operation;
+
     }
 
     /**
@@ -147,6 +158,10 @@ public class Calculator {
      * Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
+        equalsCount++;
+        if (equalsCount > operationCount) {
+            screen = lastValue;
+        }
         Double result = switch (latestOperation) {
             case "+" ->
                 latestValue + Double.parseDouble(screen);
@@ -160,6 +175,7 @@ public class Calculator {
                 throw new IllegalArgumentException();
         };
         screen = Double.toString(result);
+        latestValue = result;
         if (screen.equals("Infinity")) {
             screen = "Error";
         }

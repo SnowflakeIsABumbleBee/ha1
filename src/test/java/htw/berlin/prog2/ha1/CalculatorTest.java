@@ -147,8 +147,29 @@ class CalculatorTest {
         calc.pressDigitKey(5);
         calc.pressEqualsKey();
         calc.pressEqualsKey();
+        calc.pressEqualsKey();
 
-        String expected = "17";
+        String expected = "22";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("should display result after adding two positive numbers again using the equals key")
+    void testPlusMinusOperator() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(7);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(5);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(4);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        String expected = "6";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
