@@ -35,6 +35,11 @@ public class Calculator {
      * gedrückte Ziffer auf dem Bildschirm angezeigt oder rechts an die zuvor
      * gedrückte Ziffer angehängt angezeigt wird.
      *
+     * Hinweise / Seiteneffekte: - Der interne Bildschirminhalt ({@code screen})
+     * wird geändert. - Die zuletzt eingegebene Ziffernfolge wird in
+     * {@code lastValue} gespeichert und kann beim erneuten Drücken von "="
+     * relevant sein.
+     *
      * @param digit Die Ziffer, deren Taste gedrückt wurde
      */
     public void pressDigitKey(int digit) {
@@ -73,6 +78,12 @@ public class Calculator {
      * einer weiteren Zahl wird direkt des aktuelle Zwischenergebnis auf dem
      * Bildschirm angezeigt. Falls hierbei eine Division durch Null auftritt,
      * wird "Error" angezeigt.
+     *
+     * Verhalten / Seiteneffekte: - Speichert den aktuellen {@code screen}-Wert
+     * in {@code latestValue} als linken Operanden. - Setzt
+     * {@code latestOperation} auf die übergebene Operation. - Falls bereits
+     * eine vorherige Operation gesetzt war, wird {@link #pressEqualsKey()}
+     * aufgerufen, um das Zwischenergebnis anzuzeigen.
      *
      * @param operation "+" für Addition, "-" für Substraktion, "x" für
      * Multiplikation, "/" für Division
@@ -156,6 +167,17 @@ public class Calculator {
      * Tasten dazwischen), so wird die letzte Operation (ggf. inklusive letztem
      * Operand) erneut auf den aktuellen Bildschirminhalt angewandt und das
      * Ergebnis direkt angezeigt.
+     *
+     * Ergänzende Hinweise: - Beim ersten Anwenden wird {@code latestValue}
+     * (linker Operand) mit dem aktuellen {@code screen} (rechter Operand)
+     * kombiniert. - Bei wiederholtem Drücken ohne neue Eingaben wird
+     * {@code lastValue} als rechter Operand wiederverwendet (gesteuert über
+     * {@code equalsCount} und {@code operationCount}). - Das Ergebnis ersetzt
+     * den Bildschirminhalt und wird in {@code latestValue} gespeichert.
+     * Ganzzahlige Ergebnisse verlieren die Nachkommastelle ".0" in der Anzeige.
+     *
+     * @throws IllegalArgumentException wenn keine gültige vorherige Operation
+     * gesetzt ist oder die Operation nicht erkannt wird
      */
     public void pressEqualsKey() {
         equalsCount++;
